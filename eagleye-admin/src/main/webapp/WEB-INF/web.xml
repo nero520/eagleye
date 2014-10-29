@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<!-- 加载spring容器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:spring/*Context.xml</param-value>
+	</context-param>
+	
+	<!-- 编码格式 -->
+	<filter>
+		<filter-name>Character Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Character Encoding</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	
+	<!--这些后缀将不会走spring拦截 -->
+	<servlet-mapping>
+	<servlet-name>default</servlet-name>
+	<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping> 
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.png</url-pattern>
+	</servlet-mapping> 
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.gif</url-pattern>
+	</servlet-mapping> 
+
+	<!-- springMVC配置 -->
+	<servlet>
+		<servlet-name>springMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 手动指定配置文件的路径 -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+			    classpath*:spring/home-servlet.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- 所有的.htm的请求，都会被DispatcherServlet进行处理 -->
+	<servlet-mapping>
+		<servlet-name>springMVC</servlet-name>
+		  <url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+
+	<!-- 所有.htm结尾的请求全部不缓存 <filter> <filter-name>NoCache</filter-name> <filter-class>com.scienview.efw.filter.ResponseHeaderFilter</filter-class> 
+		<init-param> <param-name>Cache-Control</param-name> <param-value>no-cache,must-revalidate</param-value> 
+		</init-param> </filter> <filter-mapping> <filter-name>NoCache</filter-name> 
+		<url-pattern>*.html</url-pattern> </filter-mapping> -->
+	<!-- 对图片,js,css等不经常变更的数据进行缓存 -->
+	<!-- 
+	<filter>
+		<filter-name>CacheForWeek</filter-name>
+		<filter-class>com.yougou.eagleye.admin.filter.ResponseHeaderFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CacheForWeek</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheForWeek</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheForWeek</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheForWeek</filter-name>
+		<url-pattern>*.jpg</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheForWeek</filter-name>
+		<url-pattern>*.gif</url-pattern>
+	</filter-mapping>
+ -->
+	<error-page>
+		<error-code>400</error-code>
+		<location>/WEB-INF/pages/common/400.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/pages/common/403.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/pages/common/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/pages/common/500.jsp</location>
+	</error-page>
+	
+	<session-config> 
+		<session-timeout>-1</session-timeout> 
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>/WEB-INF/pages/login.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:redis="http://www.springframework.org/schema/redis"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis.xsd">
+
+
+
+<!-- ********************************** trace redis configuation ******************************************-->
+
+	 <bean id="traceJedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${eagleye.admin.trace.redis.pool.maxActive}" />
+        <property name="maxIdle" value="${eagleye.admin.trace.redis.pool.maxIdle}" />
+        <property name="maxWaitMillis" value="${eagleye.admin.trace.redis.pool.maxWait}" />
+        <property name="testOnBorrow" value="${eagleye.admin.trace.redis.pool.testOnBorrow}" />
+    </bean>
+    
+
+	<bean id="traceJedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:hostName="${eagleye.admin.trace.redis.ip}" p:port="${eagleye.admin.trace.redis.port}" p:usePool="true" />
+
+	<!-- redis template definition -->
+	<bean id="traceRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="traceJedisConnectionFactory">
+		<property name="keySerializer" ref="stringRedisSerializer" />
+		<property name="valueSerializer" ref="stringRedisSerializer" />
+	</bean>
+
+	<bean id="stringRedisSerializer"
+		class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+
+
+	<!-- 跟踪日志的listener -->
+	<bean id="traceLogListener"
+		class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="consumeTraceLogService" />
+	</bean>
+	
+	<bean id="consumeTraceLogService" class="com.yougou.eagleye.admin.services.ConsumeTraceLogService">
+	</bean>
+	
+
+	<!-- and this is the message listener container... -->
+	<bean id="traceRedisContainer"
+		class="org.springframework.data.redis.listener.RedisMessageListenerContainer">
+		<property name="connectionFactory" ref="traceJedisConnectionFactory" />
+		<property name="taskExecutor"> 
+			<bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler"> 
+			<property name="poolSize" value="32" />
+			</bean> 
+		</property>
+		<property name="messageListeners">
+			<!-- map of listeners and their associated topics (channels or/and patterns) -->
+			<map>
+				<entry key-ref="traceLogListener">
+					<bean class="org.springframework.data.redis.listener.ChannelTopic">
+						<constructor-arg value="eagleyetracechannel" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	
+<!-- ********************************** alert redis configuation ******************************************-->
+	
+	<bean id="alertJedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${eagleye.admin.alert.redis.pool.maxActive}" />
+        <property name="maxIdle" value="${eagleye.admin.alert.redis.pool.maxIdle}" />
+        <property name="maxWaitMillis" value="${eagleye.admin.alert.redis.pool.maxWait}" />
+        <property name="testOnBorrow" value="${eagleye.admin.alert.redis.pool.testOnBorrow}" />
+    </bean>
+    
+
+	<bean id="alertJedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:host-name="${eagleye.admin.alert.redis.ip}" p:port="${eagleye.admin.alert.redis.port}" p:use-pool="true" p:poolConfig-ref="alertJedisPoolConfig"/>
+
+	<!-- redis template definition -->
+	<bean id="alertRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="alertJedisConnectionFactory">
+		<property name="keySerializer" ref="stringRedisSerializer" />
+		<property name="valueSerializer" ref="stringRedisSerializer" />
+	</bean>
+	
+	<!-- 监听预警日志的listener -->
+	<bean id="consumeAlertLogListener"
+		class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="consumeAlertLogService" />
+	</bean>
+	
+	<bean id="consumeAlertLogService" class="com.yougou.eagleye.admin.services.ConsumeAlertLogService">
+		<constructor-arg value="${eagleye.admin.alert.frequence}" />
+	</bean>
+
+	<!-- and this is the message listener container... -->
+	<bean id="alertRedisContainer"
+		class="org.springframework.data.redis.listener.RedisMessageListenerContainer">
+		<property name="connectionFactory" ref="alertJedisConnectionFactory" />
+		<property name="messageListeners">
+			<!-- map of listeners and their associated topics (channels or/and patterns) -->
+			<map>
+				<entry key-ref="consumeAlertLogListener">
+					<bean class="org.springframework.data.redis.listener.ChannelTopic">
+						<constructor-arg value="eagleyealertchannel" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

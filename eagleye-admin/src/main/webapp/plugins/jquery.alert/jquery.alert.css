@@ -1,0 +1,254 @@
+.gSys_msg_box{
+    display:block;
+	z-index: 99999;
+}
+.gSys_msg_box h4,.gSys_msg_box p,.gSys_msg_box img{
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+
+.gSys_msg_box .loading{
+    display: table-cell;
+    vertical-align:middle;
+    text-align:center;
+    *display: block;
+    *font-size: 175px;
+}
+
+.gSys_msg_box .loading div {
+    vertical-align:middle;
+    border:0;
+    background: url("./loading.gif") no-repeat center;
+    width:32px;
+    height:32px;
+    margin: 0 auto;
+}
+
+.gSys_msg_box .pbox{
+    border-style: solid;
+    border-width: 0 1px 1px;
+    clear: both;
+    padding: 0 8px;
+	background-color: #FFFFFF;
+    overflow: hidden;
+	border-color:#6C92AD;
+}
+
+.gSys_msg_box .piframe{
+    border-style: solid;
+    border-width: 0 1px 1px;
+	background-color: #FFFFFF;
+    overflow: hidden;
+	border-color:#6C92AD;
+}
+
+.gSys_msg_box .ptitle{
+    width:100%;
+    background-color: #1F5699;
+    background-image: url("./bgx.png");
+    background-repeat: repeat-x;
+	background-position: 0 -216px;
+    cursor: move;
+    height: 27px;
+    line-height: 27px;
+    overflow: hidden;
+}
+
+.gSys_msg_box .ptitle h4 {
+    color: #FFFFFF;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+.gSys_msg_box .ptitle a.fn-bg {
+    display: block;
+    float: right;
+    height: 20px;
+    margin-right: 2px;
+    margin-top: 3px;
+    outline: medium none;
+    overflow: hidden;
+    text-indent: 300px;
+    width: 20px;
+}
+.gSys_msg_box .ptitle .aclose {
+    background-position: -150px 0;
+}
+.gSys_msg_box .ptitle .aclose:hover {
+    background-position: -150px -36px;
+}
+.gSys_msg_box .ptitle .aclose:active {
+    background-position: -186px -35px;
+}
+
+
+
+.gSys_msg_box .ptitle span.fn-bg {
+    display: block;
+    height: 27px;
+    width: 2px;
+}
+
+.gSys_msg_box .ptitle .fn-bg {
+    background-image: url("./bg.png");
+    background-repeat: no-repeat;
+}
+
+.gSys_msg_box .ptitle .rc-l {
+    background-position: -120px 0;
+    float: left;
+}
+
+.gSys_msg_box .ptitle .rc-r {
+    background-position: -122px 0;
+    float: right;
+}
+
+
+.gSys_msg_box .pbox .pmsg {
+    position: relative;
+    text-align: left;
+}
+
+.gSys_msg_box .pbox .pmsg .ico {
+    overflow: hidden;
+	display: inline-block;
+    vertical-align: middle;
+    background-image: url("./bg.png");
+    background-repeat: no-repeat;
+	left: 25px;
+    position: absolute;
+    top: 20px;
+    height: 32px;
+    width: 32px;
+}
+
+.gSys_msg_box .pbox .pmsg .alert,.gSys_msg_box .pbox .pmsg .prompt{
+    background-position: -230px 0;
+}
+
+.gSys_msg_box .pbox .pmsg .confirm{
+    background-position: -230px -50px;
+}
+
+
+.gSys_msg_box .pbox .pmsg .ct {
+    font-family: simsun;
+    font-size: 14px;
+    padding: 25px 15px 30px 75px;
+    word-wrap: break-word;
+}
+
+.gSys_msg_box .pbox .pmsg .cp {
+    font-family: simsun;
+    font-size: 14px;
+    padding: 25px 15px 25px 15px;
+    word-wrap: break-word;
+}
+
+.gSys_msg_box .pbox .pmsg .pinput{
+   background:url("./bg.png") no-repeat scroll 0 -180px transparent;
+   border-color:#9A9A9A #CDCDCD #CDCDCD #9A9A9A;
+   border-style:solid;
+   border-width:1px;
+   font:14px arial;
+   padding:4px 5px;
+   vertical-align:top;
+   margin-top:4px;
+}
+
+.gSys_msg_box .popt{
+    border-style: solid;
+    border-width: 0 1px 1px;
+    clear: both;
+    height: 42px;
+    padding: 0 8px;
+	background-color: #F6F9FC;
+}
+
+
+.gSys_msg_box .popt .opt .pbtn {
+    margin-left: 8px;
+}
+
+
+.gSys_msg_box .popt .opt .pbtn, .gSys_msg_box .popt .opt .pbtn span {
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+	outline:none;
+	font-size:12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.gSys_msg_box .popt {
+    border-style: solid;
+	border-color: #6C92AD;
+}
+
+.gSys_msg_box .popt .opt {
+    float: right;
+    margin-top: 9px;
+    white-space: nowrap;
+}
+
+.gSys_msg_box .popt .opt .pbtn span {
+    padding-left: 18px;
+    padding-right: 14px;
+	line-height: 18px;
+    margin-right: 3px;
+    padding: 4px 9px 5px 12px;
+}
+
+
+.gSys_msg_box .popt .opt .pbtn,.gSys_msg_box .popt .opt .pbtn span{
+    background-image: url("./bg.png");
+    background-repeat: no-repeat;
+}
+
+
+.btn_gl, .btn_gl span, .gSys_msg_box .popt .opt .pbtn span {
+    background-position: -292px 0;
+}
+
+.gSys_msg_box .popt .opt .pbtn span {
+    margin-right: 3px;
+    padding: 4px 9px 5px 12px;
+	font-family:"宋体";
+}
+
+.gSys_msg_box .popt .opt .pbtn{
+    background-position: 100% -24px;
+	border: 0 none;
+    color: #000000;
+    height: 24px;
+    overflow: hidden;
+    text-decoration: none;
+	float:right;
+}
+
+
+
+.gSys_msg_box .popt .opt .btn_hover {
+    background-position: 100% -72px;
+}
+
+.gSys_msg_box .popt .opt .btn_hover span {
+    background-position: -292px -48px;
+}
+
+.gSys_msg_box .popt .opt .btn_active {
+    background-position: 100% -120px;
+}
+
+.gSys_msg_box .popt .opt .btn_active span {
+    background-position: -292px -96px;
+}
+

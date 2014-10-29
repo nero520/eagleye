@@ -1,0 +1,210 @@
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    default-autowire="byName"  
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd   
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<!-- 自动扫描bean，把作了注解的类转换为bean -->
+	<context:component-scan base-package="com.yougou.eagleye.admin.services" />
+
+	<!-- 自动扫描bean，把作了注解的类转换为bean -->
+	<context:component-scan base-package="com.yougou.eagleye.admin.dao" /> 
+	
+	<!-- <import resource="classpath*:dubbo-trigger.xml" /> -->
+	
+	<!-- 主要参数在这里进配置 -->
+	<bean id="appConstants" class="com.yougou.eagleye.admin.constants.AppConstants">
+		<property name="sendEmailUrl">
+			<value>${eagleye.admin.sendEmailUrl}</value>
+		</property>
+		<property name="sendSmsUrl">
+			<value>${eagleye.admin.sendSmsUrl}</value>
+		</property>
+		<property name="alertFrequence">
+			<value>${eagleye.admin.alert.frequence}</value>
+		</property>
+		<property name="alertStatus">
+			<value>${eagleye.admin.alert.status}</value>
+		</property>
+		<property name="traceAlertStatus">
+			<value>${eagleye.admin.trace.alert.status}</value>
+		</property>
+		<property name="storageStatus">
+			<value>${eagleye.admin.storageStatus}</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 多线程将跟踪日志添加到elasticsearch中 -->
+    <bean id="traceLogHandlerTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 核心线程池大小 -->
+		<property name="corePoolSize" value="4" />
+		<!-- 线程池维护线程所允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="60" />
+		<!-- 线城池最大数量 -->
+		<property name="maxPoolSize" value="8" />
+		<!-- 等待队列最大数 -->
+		<property name="queueCapacity" value="90000" />
+		<!-- 失败策略, 重试添加当前的任务，他会自动重复调用execute()方法 -->
+		<property name="rejectedExecutionHandler">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"></bean>
+		</property>
+	</bean>
+	
+	
+	<!-- 多线程将异常日志添加到elasticsearch中 -->
+    <bean id="alertLogHandlerTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 核心线程池大小 -->
+		<property name="corePoolSize" value="16" />
+		<!-- 线程池维护线程所允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="60" />
+		<!-- 线城池最大数量 -->
+		<property name="maxPoolSize" value="32" />
+		<!-- 等待队列最大数 -->
+		<property name="queueCapacity" value="2000" />
+		<!-- 失败策略, 重试添加当前的任务，他会自动重复调用execute()方法 -->
+		<property name="rejectedExecutionHandler">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"></bean>
+		</property>
+	</bean>
+	
+	
+	
+	<!-- 通过BeanFactoryAware，手动从spring容器获取bean -->
+	<bean class="com.yougou.eagleye.admin.util.SpringContextHolder"/>
+	
+	
+	
+	
+	
+	
+	<!-- ******************************************** quartz schedule ******************************************** -->
+	
+	
+	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+			  	<ref local="removeTraceLogTrigger"/> 
+			  	<ref local="traceAlertTrigger"/>
+			</list>
+		</property>
+	</bean>
+	
+	
+	
+	<!-- 每天删除七天一起的tracelog数据 -->
+    <bean id="removeTraceLogTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="removeTraceLogJobDetail"/>
+        <!-- 每天五点执行一次 -->
+        <property name="cronExpression" value="0 0 5 * * ?"/>
+        <!-- 1分钟执行一次（测试用） -->
+        <!--property name="cronExpression" value="0 */1 * * * ?"/-->
+    </bean>
+	<bean name="removeTraceLogJobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+	    <property name="jobClass" value="com.yougou.eagleye.admin.schedule.RemoveTraceLogJbo" />
+	</bean>
+	
+	
+	<!-- 每半个小时进行一次预警统计, 只有这块是写死的, 周期需要在代码中修改 -->
+    <bean id="traceAlertTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="traceAlertJobDetail"/>
+        <!-- 每隔半小时执行一次   eg: 每隔一小时 0 0 0/1 * * ?-->
+        <property name="cronExpression" value="0 0/30 * * * ?"/>
+        <!-- 1分钟执行一次（测试用） -->
+        <!--property name="cronExpression" value="0 */1 * * * ?"/-->
+    </bean>
+	<bean name="traceAlertJobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+	    <property name="jobClass" value="com.yougou.eagleye.admin.schedule.TraceAlertJbo" />
+	</bean>
+		
+		
+	<!-- ****************************************auto load log4j.xml************************************************************* -->
+	
+	<bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+         <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
+         <property name="targetMethod" value="initLogging"/>
+         <property name="arguments">
+             <list>
+                 <value>classpath:log4j.xml</value>
+                 <!-- 5 minute -->
+                 <value>300000</value>
+             </list>
+         </property>
+    </bean>  	
+	
+</beans>
+
+
+		<!-- ==================== }} CMS SCHEDULE CONFIG ==================== -->
+		
+		<!-- 活动开始Job -->
+		<!-- <bean id="promotionStartJobDetail" class="com.yougou.mgmt.schedule.MethodInvokingJobDetailPrototypeFactoryBean">
+			<property name="group" value="promotionStartGroup"/>
+			<property name="targetObject" ref="promotionStartJob"/>
+			<property name="targetMethod" value="execute"/>
+			同一任务在前一次执行未完成而Trigger时间又到时是否并发开始新的执行, 默认为true.
+        	<property name="concurrent" value="false" />
+		</bean> -->
+		
+		<!-- 活动结束Job -->
+		<!-- <bean id="promotionEndJobDetail" class="com.yougou.mgmt.schedule.MethodInvokingJobDetailPrototypeFactoryBean">
+			<property name="group" value="promotionEndGroup"/>
+			<property name="targetObject" ref="promotionEndJob"/>
+			<property name="targetMethod" value="execute"/>
+			同一任务在前一次执行未完成而Trigger时间又到时是否并发开始新的执行, 默认为true.
+        	<property name="concurrent" value="false" />
+		</bean> -->
+		<!-- 调度配置 结束 -->
+		
+		<!-- 
+	          附：cronExpression配置说明 
+	
+		字段   允许值   允许的特殊字符 
+		秒    0-59    , - * / 
+		分    0-59    , - * / 
+		小时    0-23    , - * / 
+		日期    1-31    , - * ? / L W C 
+		月份    1-12 或者 JAN-DEC    , - * / 
+		星期    1-7 或者 SUN-SAT    , - * ? / L C # 
+		年（可选）    留空, 1970-2099    , - * / 
+		
+		
+		这里特殊字符说明： 
+		
+		1.逗号[,]的作用,用于分隔字符,如秒1,10,59 这是在1秒、10秒、59秒时触发。 
+		
+		2.横线[-]的作用,用于表示多少至多少,如秒1-20 这是在1到20之间每秒都触发。 
+		
+		3.星号
+		•的作用,用于表示忽略本项,如秒* 这样在整个表达式中将不把秒做为条件。 
+		
+		4.斜线[/]的作用,用于表示倍数累加,如秒5/15 这是在5,20,35,50时触发。 
+		
+		5.问号[?],只能用在日期和星期，因为两者之间有一个相同性，例如星期一，在日期表达中是20号，这样在进行cron计算时会有问题,因此可以使用?号,把其中的一个屏蔽掉。例如 * * * ? * 1 表示为每星一触发。 
+		
+		表达式 意义 
+		"0 22  2  ? * 3" 每周三晚上2：22触发
+		"0 0   12 * * ?" 每天中午12点触发 
+		"0 15  10 ? * *" 每天上午10:15触发 
+		"0 15  10 * * ?" 每天上午10:15触发 
+		"0 15  10 * * ? *" 每天上午10:15触发 
+		"0 15  10 * * ? 2005" 2005年的每天上午10:15触发 
+		"0 *   14 * * ?" 在每天下午2点到下午2:59期间的每1分钟触发 
+		"0 0/5 14 * * ?" 在每天下午2点到下午2:55期间的每5分钟触发 
+		"0 0/5 14,18 * * ?" 在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发 
+		"0 0-5 14 * * ?" 在每天下午2点到下午2:05期间的每1分钟触发 
+		"0 10,44 14 ? 3 WED" 每年三月的星期三的下午2:10和2:44触发 
+		"0 15 10 ? * MON-FRI" 周一至周五的上午10:15触发 
+		"0 15 10 15 * ?" 每月15日上午10:15触发 
+		"0 15 10 L * ?" 每月最后一日的上午10:15触发 
+		"0 15 10 ? * 6L" 每月的最后一个星期五上午10:15触发 		        
+        -->

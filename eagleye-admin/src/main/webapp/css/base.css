@@ -1,0 +1,131 @@
+@CHARSET "UTF-8";
+* html iframe, * html frame{
+	overflow:auto;
+}
+* html frameset{
+	overflow:hidden;
+}
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, a, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, form, label, table, caption, article, aside, canvas, details, figcapt ion, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	border:0 none;
+}
+body {
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: #333333;
+    font-family: arial,'宋体',sans-serif;
+    font-size: 12px;
+   
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+caption, th {
+    text-align: center;
+}
+img {
+    border: 0 none;
+}
+select, input, img {
+    vertical-align: middle;
+}
+a {
+    text-decoration: none;
+}
+a:link {
+    color: #000099;
+}
+a:visited {
+    color: #800080;
+}
+a:hover, a:active, a:focus {
+    color: #CC0000;
+    text-decoration: underline;
+}
+li {
+    list-style: none outside none;
+}
+ul, ol {
+    list-style-type: none;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+.clear {
+    clear: both;
+}
+button {
+    cursor: pointer;
+}
+
+/*文字居中,居右,居左*/
+.tc {
+    text-align: center;
+}
+.tr {
+    text-align: right;
+}
+.tl {
+    text-align: left;
+}
+/*文字颜色*/
+.c0 {
+    color: #000000;
+}
+.c3 {
+    color: #333333;
+}
+.c6 {
+    color: #666666;
+}
+.c9 {
+    color: #999999;
+}
+/*文字大小*/
+.f10 {
+    font-size: 10px;
+}
+.f12 {
+    font-size: 12px;
+}
+.f13 {
+    font-size: 13px;
+}
+.f14 {
+    font-size: 14px;
+}
+.f16 {
+    font-size: 16px;
+}
+.f20 {
+    font-size: 20px;
+}
+.f24 {
+    font-size: 24px;
+}
+
+
+/*垂直对齐方式*/
+.vm {
+    vertical-align: middle;
+}
+.vb {
+    vertical-align: text-bottom;
+}
+.vt {
+    vertical-align: top;
+}
+/*浮动方向*/
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+/*外边距*/
+.mt1{margin-top:1px;}
+.mb1{margin-bottom:1px;}
+.ml7{margin-left:7px;}

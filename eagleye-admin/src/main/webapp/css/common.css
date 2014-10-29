@@ -1,0 +1,180 @@
+@CHARSET "UTF-8";
+/*body的背景颜色灰色*/
+.body_bg_gray{background-color:#eee;}
+textarea {resize:none;border:1px solid #A5ACB2;}
+tr td{word-wrap: break-word; word-break: break-all; }
+input{border:1px solid #A5ACB2;}
+.required_span{color:red;margin-left:5px;}
+/*body中的最外层div——效果为阴影（IE下起作用）*/
+.stripe_tbbg {float:left;background:#fff;margin:15px 0 15px 5px;width:97.2%;*width:;height:auto;max-height:none;-moz-box-shadow:1px 3px 3px #aaa;-webkit-box-shadow:1px 3px 3px #666;box-shadow:1px 2px 7px #aaa;behavior:url(../js/pie.htc);}
+/**validate 样式 避免产生验证信息的时候页面跳动*/
+label.error {width: auto;display: block;text-align:left;color:#900;height:1em;margin-top:5px;}
+
+/*table*/
+/*table 详情table*/
+.detailTableStyle{table-layout:fixed;width:90%;margin:35px 0 0;}
+.detailTableStyle tr{line-height:25px;}
+/*table 新增修改页面的table，此table留有验证文字的高度*/
+.createTableStyle{table-layout:fixed;width:90%;	margin:35px auto 0;}
+/*.createTableStyle input:focus { border:1px dotted black; }*/
+.createTableStyle tbody tr{height:2.5em;}
+.createTableStyle tbody.tr_detail tr{height:2em;}
+.createTableStyle tbody tr th{text-align:right;vertical-align:top;}
+.tr_detail_w25 th{width:25%;}
+.tr_detail_w10 th{width:10%;}
+.createTableStyle tbody tr td{vertical-align:top;text-align:left;margin-left:4px;padding-left:10px;}
+.w170_h15 {width:170px;height:15px;}
+.createTableStyle tfoot tr td{text-align:center;align:center;padding-top:10px;}
+
+/*按钮*/
+.butn{ background: url(../images/button_.png) no-repeat; width:95px; outline:none; height:32px; line-height:21px; border:0;cursor:pointer;color:#333;font-size:12px;}
+.butn_W28{ background: url(../images/button_W28.png) no-repeat; outline-style:none; hide-focus:expression(this.hideFocus=true); width:75px; height:27px; line-height:21px; border:0;cursor:pointer;color:#333;font-size:12px;}
+.butn_W28：focus{outline-style:none;}
+/*修改图标*/
+.pwd{ background: url(../images/changepwd.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;}
+.edit{ background: url(../images/edit.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;}
+.add{ background: url(../images/add.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;margin-left:10px;}
+.delete{ background: url(../images/delete.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;}
+.detail{ background: url(../images/detail.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;}
+.delete_all{ background: url(../images/delete_all.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;margin-left:10px;}
+.licenseManage{ background: url(../images/licenseManage.gif) no-repeat; width:22px; height:22px; border:0;cursor:pointer;color:#fff;margin-left:10px;}
+.role{ background: url(../images/role.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;}
+.users{ background: url(../images/users.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;}
+.auth{ background: url(../images/auth.png) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;}
+.chart_organisation{ background: url(../images/chart_organisation.gif) no-repeat; width:16px; height:16px; border:0;cursor:pointer;color:#fff;}
+/*列表左上方的div框，里面用来放置新增，批量删除等按钮*/
+.toolbar {float: left;position:absolute; bottom:9px;}
+.fg-toolbar {position:relative;height:27px;}
+.dataTables_filter{position:absolute; bottom:5px;right:2px;}
+.selected_box{margin-right:-5px; overflow:hidden;}
+
+/*折叠菜单-start*/
+.divLeft {background: #eee;border-right: solid 4px #ccc;overflow-x: hidden; overflow-y: auto; }
+.functree {width: 240px;}
+.functree ul {display: none;list-style-type:none;}
+.functree li {}
+.functree li span {font-size: 12px;background: #EEE;width: 240px;height:34px;line-height: 34px;text-indent: 6px; background:#E6E6E6; border-bottom:#c6c6c6 1px solid;}
+.functree li span span {border:none;background:none;}
+.functree li span span img {_margin:10px 0;}
+.modules {cursor: pointer;width: 240px;display: block;}
+.modules i{float:left; padding-left:30px;list-style:none;display: block;font-style:normal;}
+.modules span{border:none; background:none}
+.modules .show_img{margin-top:15px; margin-right:30px;}
+.fnIn {background: #fff}
+.fnIn li {display: block;}
+.fnIn li a {display: block;font-size: 12px;padding:5px 0;padding-left:36px;}
+.fnIn li a:hover {background-color: #dbdbdb;text-decoration:none;}
+.mr5 {margin-right: 5px;}
+.ml100 {margin-left: 100px;}
+/*折叠菜单-end*/
+
+.nav{height:25px; line-height:25px; margin-top:8px; float:right; margin-right:20px}
+.nav li{height:25px; margin-left:10px; float:left; cursor:pointer}
+.nav li.li1{width:25px; /*background:url(<'%=request.getContextPath() %>/images/loginicon.png) no-repeat;*/ margin-right:10px}
+.nav li.li2{ color:#FFF}
+.nav li.li3{width:1px; border-right:1px solid #FFF}
+.nav li.li4{width:50px}
+.nav li a{color:#FFF}
+.nav li a:hover{color:#508FD2}
+/*top页面-end*/
+
+/**检索框-start**/
+.search-bg {background-color: #FFFFFF;border-radius: 6px 6px 6px 6px;float: right;height: 19px;line-height: 19px;margin: 5px 10px 0 0;padding: 2px 5px 3px;position: relative;width: 265px;}
+.fang {border: 1px solid #CCCCCC;}
+.search_en {float: left;height: 18px;margin-top: 1px;overflow: hidden;width: 21px;}
+.search_en a {background:url(../images/search.png) no-repeat scroll 5px 2px transparent; display: block;height: 18px;width: 21px;}
+.search {border: 0 none;float: left; height: 20px;line-height: 20px;width: 240px;}
+.showValue {position:absolute; left:16px; top:3px;}
+/**检索框-end**/
+
+/***展开，折叠按钮**/
+.folder {
+	margin-top:5px;
+	background:url(../images/folderbutton.png) no-repeat;
+	border:none;
+	width:68px;
+	height:18px;
+	text-align:center;
+	font-size:12px;
+	cursor:pointer;
+}
+/***新增详情页，装按钮的div 灰色的底色条带和蓝色的边框**/
+.gray_bg{ background: url(../images/gray_bg.png) repeat-x ; text-align:center; line-height:45px;height:45px;}
+.outer-border{border:1px solid #BED3E6;margin:7px 9px 0px 9px;}
+.grey_bg {
+	background:url(../images/gray_bg.png) repeat-x bottom;
+	padding:8px 20px 0px 20px;
+}
+.tab {margin:0px;width:100%;border:1px solid #BED3E6;}
+.tab tbody {padding-top:10px;float:left;padding-bottom:10px;}
+.tab input {border:1px solid #A5ACB2;}
+.but_bar {text-align:center;line-height:45px;height:45px;}
+/***下拉框的插件设置**/
+/*设置下拉框宽度*/
+/*.cg-autocomplete{width:170px;}*/
+/*设置下拉框上一页下一页的div宽度*/
+#cg-navInfo { min-width: 40px;text-align: center;}
+/*设置下拉框选择页数分页隐藏*/
+.ui-paging-info,.recordXP{display:none;}
+/*设置validform的tip的样式-start*/
+.Validform_checktip{margin-left:0;}
+.info{
+	border:1px solid #ccc; 
+	padding:2px 20px 2px 5px; 
+	color:#666; 
+	position:absolute;
+	display:none;
+	line-height:20px;
+	background-color:#fff;
+}
+.dec {
+    bottom: -8px;
+    display: block;
+    height: 8px;
+    overflow: hidden;
+    position: absolute;
+    left: 10px;
+    width: 17px;
+}
+.dec s {
+    font-family: simsun;
+    font-size: 16px;
+    height: 19px;
+    left: 0;
+    line-height: 21px;
+    position: absolute;
+    text-decoration: none;
+    top: -9px;
+    width: 17px;
+}
+.dec .dec1 {
+    color: #ccc;
+}
+.dec .dec2 {
+    color: #fff;
+    top: -10px;
+}
+/*设置validform的tip的样式-end*/
+
+/* 字典列表样式*/
+.dict{
+	background-color:#f4f4f4;
+}
+
+/** 字典树样式*/
+.myTree{
+	background-color:#f4f4f4;
+}
+ul.myZtree {
+	margin-top: 10px;
+	border: 1px solid #617775;
+	background: #f0f6e4;
+	width:220px;
+	height:360px;
+	overflow-y:scroll;
+	overflow-x:auto;
+}
+
+.header{background-image: -webkit-linear-gradient(#1d9ce5, #2fa4e7 50%, #178acc);background-image: -moz-linear-gradient(#1d9ce5, #2fa4e7 50%, #178acc); height:38px; border-bottom:solid 1px #508FD2;}
+/*datatable_div 自定义样式*/
+.datatable_div{ margin:15px 14px 5px;}
